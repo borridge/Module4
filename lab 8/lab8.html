@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lab 8 – Luxon Date Exercises</title>
+  <script src="https://cdn.jsdelivr.net/npm/luxon@3/build/global/luxon.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f9f9f9;
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 1rem;
+    }
+    .output {
+      background: white;
+      border: 1px solid #ccc;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Lab #8 – Luxon Date Exercises</h2>
+
+  <div class="output" id="daysBetween"></div>
+  <div class="output" id="ymdDifference"></div>
+  <div class="output" id="closestDate"></div>
+  <div class="output" id="comparison"></div>
+  <div class="output" id="londonTime"></div>
+
+  <script>
+    const { DateTime } = luxon;
+
+    // 1. Set your birthdate (July 19, 1993)
+    const birthdate = DateTime.fromISO("1993-07-19");
+    const today = DateTime.now();
+
+    // 2. Calculate the number of days between birthdate and today
+    const days = Math.floor(today.diff(birthdate, 'days').days);
+    document.getElementById("daysBetween").innerHTML =
+      `<strong>Days since birth:</strong> ${days} days`;
+
+    // 3. Display the number of years, months, and days between
+    const ymd = today.diff(birthdate, ['years', 'months', 'days']).toObject();
+    document.getElementById("ymdDifference").innerHTML =
+      `<strong>Age:</strong> ${Math.floor(ymd.years)} years, ${Math.floor(ymd.months)} months, ${Math.floor(ymd.days)} days`;
+
+    // 4. Determine which of two dates is closest to today
+    const d1 = DateTime.fromISO("2024-12-25");
+    const d2 = DateTime.fromISO("2025-06-01");
+    const closest = Math.abs(today.diff(d1).milliseconds) < Math.abs(today.diff(d2).milliseconds) ? d1 : d2;
+    document.getElementById("closestDate").innerHTML =
+      `<strong>Closest date to today:</strong> ${closest.toISODate()}`;
+
+    // 5. Compare if date1 is before or after date2
+    const compareText = d1 < d2 ? "Date 1 is before Date 2" :
+                        d1 > d2 ? "Date 1 is after Date 2" :
+                                  "Date 1 and Date 2 are the same";
+    document.getElementById("comparison").innerHTML =
+      `<strong>Comparison:</strong> ${compareText}`;
+
+    // 6. Display the current time in London
+    const london = DateTime.now().setZone("Europe/London");
+    document.getElementById("londonTime").innerHTML =
+      `<strong>Current time in London:</strong> ${london.toLocaleString(DateTime.DATETIME_FULL)}`;
+  </script>
+
+</body>
+</html>

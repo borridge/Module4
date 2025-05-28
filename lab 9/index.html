@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab #9 – eCharts: Fake Store Categories</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+</head>
+<body>
+  <!-- Chart container -->
+  <div id="main" style="width: 900px; height: 600px;"></div>
+
+  <script>
+    // Initialize the chart
+    const myChart = echarts.init(document.getElementById('main'));
+
+    // Fetch product data
+    fetch('https://fakestoreapi.com/products')
+      .then(response => response.json())
+      .then(data => {
+        // Count items per category
+        const categoryCount = {};
+        data.forEach(item => {
+          categoryCount[item.category] = (categoryCount[item.category] || 0) + 1;
+        });
+
+        // Prepare data for eCharts
+        const categories = Object.keys(categoryCount);
+        const counts = Object.values(categoryCount);
+
+        // Set the options with fetched data
+        const options = {
+          title: {
+            text: 'Number of Products per Category',
+            left: 'center'
+          },
+          tooltip: {},
+          xAxis: {
+            type: 'category',
+            data: categories,
+            axisLabel: {
+              interval: 0,
+              rotate: 30
+            }
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [{
+            name: '# of Products',
+            type: 'bar',
+            data: counts
+          }]
+        };
+
+        // Render chart
+        myChart.setOption(options);
+      })
+      .catch(error => {
+        console.error("Failed to load or process data:", error);
+      });
+  </script>
+</body>
+</html>

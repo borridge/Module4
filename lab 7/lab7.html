@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Animation - Square Slider</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f4f8;
+      font-family: sans-serif;
+    }
+
+    .slider-container {
+      position: relative;
+      width: 100px;
+      height: 300px;
+      border: 2px dashed #aaa;
+      background: #ffffff;
+    }
+
+    .square {
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      top: 0;
+      background-color: blue;
+      animation: slideDownUp 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes slideDownUp {
+      0% {
+        top: 0;
+        background-color: blue;
+      }
+      100% {
+        top: 200px;
+        background-color: purple;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slider-container">
+    <div class="square"></div>
+  </div>
+
+</body>
+</html>
